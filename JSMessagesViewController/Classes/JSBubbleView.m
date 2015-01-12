@@ -24,6 +24,9 @@
 #define kPaddingBottom 8.0f
 #define kBubblePaddingRight 35.0f
 
+CGFloat JSBubbleViewMaxWidthAutomatic = CGFLOAT_MIN;
+static CGFloat JSBubbleViewMaxWidth = CGFLOAT_MIN;
+
 
 @interface JSBubbleView()
 
@@ -211,7 +214,12 @@
 
 + (CGSize)textSizeForText:(NSString *)txt
 {
-    CGFloat maxWidth = [UIScreen mainScreen].applicationFrame.size.width * 0.70f;
+    CGFloat maxWidth;
+    if (JSBubbleViewMaxWidth == JSBubbleViewMaxWidthAutomatic) {
+        maxWidth = [UIScreen mainScreen].applicationFrame.size.width * 0.70f;
+    } else {
+        maxWidth = JSBubbleViewMaxWidth;
+    }
     CGFloat maxHeight = MAX([JSMessageTextView numberOfLinesForMessage:txt],
                          [txt js_numberOfLines]) * [JSMessageInputView textViewLineHeight];
     maxHeight += kJSAvatarImageSize;
@@ -246,6 +254,11 @@
 {
     CGSize size = [JSBubbleView neededSizeForText:text];
     return size.height + kMarginTop + kMarginBottom;
+}
+
++ (void)setMaxWidth:(CGFloat)maxWidth
+{
+    JSBubbleViewMaxWidth = maxWidth;
 }
 
 @end

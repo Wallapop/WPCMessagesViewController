@@ -15,6 +15,8 @@
 #import <UIKit/UIKit.h>
 #import "JSBubbleImageViewFactory.h"
 
+extern CGFloat JSBubbleViewMaxWidthAutomatic;
+
 /**
  *  An instance of JSBubbleView is a means for displaying text in a speech bubble image to be placed in a JSBubbleMessageCell. 
  *  @see JSBubbleMessageCell.
@@ -81,5 +83,10 @@
  *  @return The height required for the frame of the bubble view in order to display the given text.
  */
 + (CGFloat)neededHeightForText:(NSString *)text;
+
+/**
+ *  Used to define an explicit maximum width for the bubbles. Default value is JSBubbleViewMaxWidthAutomatic.
+ */
++ (void)setMaxWidth:(CGFloat)maxWidth;
 
 @end
