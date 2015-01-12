@@ -198,10 +198,11 @@
         textX += (self.bubbleImageView.image.capInsets.left / 2.0f);
     }
     
+    BOOL textViewSupportsTextContainerInset = [_textView respondsToSelector:@selector(textContainerInset)];
     CGRect textFrame = CGRectMake(textX,
                                   self.bubbleImageView.frame.origin.y,
                                   self.bubbleImageView.frame.size.width - (self.bubbleImageView.image.capInsets.right / 2.0f),
-                                  self.bubbleImageView.frame.size.height - kMarginTop);
+                                  textViewSupportsTextContainerInset ? self.bubbleImageView.frame.size.height : self.bubbleImageView.frame.size.height - kMarginTop);
     
     self.textView.frame = CGRectIntegral(textFrame);
 }
