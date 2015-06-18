@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name = 'WPCMessagesViewController'
-	s.version = 'wpc.7.1.0'
+	s.version = '7.1.0'
 	s.summary = 'An elegant messages UI library for iOS.'
 	s.homepage = 'http://jessesquires.github.io/JSQMessagesViewController'
 	s.license = 'MIT'
