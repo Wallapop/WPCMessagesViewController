@@ -222,19 +222,9 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 {
     NSParameterAssert(self.senderId != nil);
     NSParameterAssert(self.senderDisplayName != nil);
-
+    
     [super viewWillAppear:animated];
     [self.view layoutIfNeeded];
-    [self.collectionView.collectionViewLayout invalidateLayout];
-
-    if (self.automaticallyScrollsToMostRecentMessage) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self scrollToBottomAnimated:NO];
-            [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
-        });
-    }
-
-    [self jsq_updateKeyboardTriggerPoint];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -261,6 +251,20 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     [super viewDidDisappear:animated];
     [self jsq_removeObservers];
     [self.keyboardController endListeningForKeyboard];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    [self.collectionView.collectionViewLayout invalidateLayout];
+    
+    if (self.automaticallyScrollsToMostRecentMessage) {
+        [self scrollToBottomAnimated:NO];
+        [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
+    }
+    
+    [self jsq_updateKeyboardTriggerPoint];
 }
 
 - (void)didReceiveMemoryWarning
