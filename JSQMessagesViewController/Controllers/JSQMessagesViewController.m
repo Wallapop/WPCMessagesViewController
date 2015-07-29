@@ -61,6 +61,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 @property (strong, nonatomic) NSIndexPath *selectedIndexPathForMenu;
 
+@property (nonatomic) CGSize lastKnownSize;
+
 - (void)jsq_configureMessagesViewController;
 
 - (NSString *)jsq_currentlyComposedMessageText;
@@ -257,14 +259,22 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 {
     [super viewDidLayoutSubviews];
     
-    [self.collectionView.collectionViewLayout invalidateLayout];
-    
     if (self.automaticallyScrollsToMostRecentMessage) {
         [self scrollToBottomAnimated:NO];
-        [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
     }
     
+    if (CGSizeEqualToSize(self.lastKnownSize, self.view.frame.size)) {
+        return;
+    }
+    
+    JSQMessagesCollectionViewFlowLayoutInvalidationContext *ctx = [JSQMessagesCollectionViewFlowLayoutInvalidationContext context];
+    ctx.invalidateFlowLayoutMessagesCache = YES;
+    [self.collectionView.collectionViewLayout invalidateLayoutWithContext:ctx];
+    
     [self jsq_updateKeyboardTriggerPoint];
+    
+    self.lastKnownSize = self.view.frame.size;
+    [self.collectionView.delegate collectionView:self.collectionView didTransitionToSize:self.lastKnownSize];
 }
 
 - (void)didReceiveMemoryWarning

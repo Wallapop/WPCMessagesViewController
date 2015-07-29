@@ -119,4 +119,12 @@
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
                 header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender;
 
+/**
+ *  Notifies the delegate that the collection view's size has changed
+ *
+ *  @param collectionView The collection view object.
+ *  @param size           The size which the view has transitioned.
+ */
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTransitionToSize:(CGSize)size;
+
 @end
