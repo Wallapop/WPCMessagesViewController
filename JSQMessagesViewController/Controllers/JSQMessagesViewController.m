@@ -226,7 +226,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     NSParameterAssert(self.senderDisplayName != nil);
     
     [super viewWillAppear:animated];
-    [self.view layoutIfNeeded];
+    [self.collectionView layoutIfNeeded];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -259,12 +259,12 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 {
     [super viewDidLayoutSubviews];
     
-    if (self.automaticallyScrollsToMostRecentMessage) {
-        [self scrollToBottomAnimated:NO];
-    }
-    
     if (CGSizeEqualToSize(self.lastKnownSize, self.view.frame.size)) {
         return;
+    }
+    
+    if (self.automaticallyScrollsToMostRecentMessage && CGSizeEqualToSize(self.lastKnownSize, CGSizeZero)) {
+        [self scrollToBottomAnimated:NO];
     }
     
     JSQMessagesCollectionViewFlowLayoutInvalidationContext *ctx = [JSQMessagesCollectionViewFlowLayoutInvalidationContext context];
