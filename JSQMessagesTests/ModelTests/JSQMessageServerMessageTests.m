@@ -13,7 +13,7 @@
 #import "JSQMessage.h"
 
 
-@interface JSQMessageTextTests : XCTestCase
+@interface JSQMessageServerMessageTests : XCTestCase
 
 @property (strong, nonatomic) NSString *senderId;
 @property (strong, nonatomic) NSString *senderDisplayName;
@@ -24,21 +24,21 @@
 @end
 
 
-@implementation JSQMessageTextTests
+@implementation JSQMessageServerMessageTests
 
 - (void)setUp
 {
     [super setUp];
     
     self.senderId = @"324543-43556-212343";
-    self.senderDisplayName = @"Jesse Squires";
+    self.senderDisplayName = @"Wallapop";
     self.date = [NSDate date];
     
     self.text = @"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque"
     @"laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi"
     @"architecto beatae vitae dicta sunt explicabo.";
     
-    self.messageKind = JSQMessageKindText;
+    self.messageKind = JSQMessageKindServerMessage;
 }
 
 - (void)tearDown
@@ -66,7 +66,7 @@
 - (void)testTextMessageInvalidInit
 {
     XCTAssertThrows([[JSQMessage alloc] init], @"Invalid init should throw");
-    XCTAssertThrows([[JSQMessage alloc] initWithSenderId:nil senderDisplayName:nil date:nil text:nil kind:JSQMessageKindText], @"Invalid init should throw");
+    XCTAssertThrows([[JSQMessage alloc] initWithSenderId:nil senderDisplayName:nil date:nil text:nil kind:JSQMessageKindServerMessage], @"Invalid init should throw");
 }
 
 - (void)testTextMessageIsEqual

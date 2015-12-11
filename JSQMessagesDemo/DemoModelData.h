@@ -38,7 +38,8 @@ static NSString * const kJSQDemoAvatarIdCook = @"468-768355-23123";
 static NSString * const kJSQDemoAvatarIdJobs = @"707-8956784-57";
 static NSString * const kJSQDemoAvatarIdWoz = @"309-41802-93823";
 
-
+static NSString * const kJSQDemoServerDisplayNameWallapop = @"Wallapop";
+static NSString * const kJSQDemoServerIdWallapop = @"053696-4509-289";
 
 @interface DemoModelData : NSObject
 

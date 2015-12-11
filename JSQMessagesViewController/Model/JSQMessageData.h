@@ -20,6 +20,26 @@
 
 #import "JSQMessageMediaData.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ *  Enum representing the kind of messages that can be sent via this client
+ */
+typedef NS_ENUM(NSUInteger, JSQMessageKind){
+    /**
+     *  This represents a text-only message
+     */
+    JSQMessageKindText,
+    /**
+     *  This represents a multimedia message
+     */
+    JSQMessageKindMedia,
+    /**
+     *  This represents a server message (third voice on chat)
+     */
+    JSQMessageKindServerMessage,
+};
+
 /**
  *  The `JSQMessageData` protocol defines the common interface through which 
  *  a `JSQMessagesViewController` and `JSQMessagesCollectionView` interact with message model objects.
@@ -27,11 +47,7 @@
  *  It declares the required and optional methods that a class must implement so that instances of that class 
  *  can be displayed properly within a `JSQMessagesCollectionViewCell`.
  *
- *  Two concrete classes that conform to this protocol are provided in the library. See `JSQTextMessage` and `JSQMediaMessage`.
- *
  *  @see JSQMessage.
- *  @see JSQTextMessage.
- *  @see JSQMediaMessage.
  */
 @protocol JSQMessageData <NSObject>
 
@@ -83,6 +99,11 @@
  */
 - (NSUInteger)messageHash;
 
+/**
+ *  @return An ENUM with the kind of message it is.
+ */
+- (JSQMessageKind)messageKind;
+
 @optional
 
 /**
@@ -100,3 +121,5 @@
 - (id<JSQMessageMediaData>)media;
 
 @end
+
+NS_ASSUME_NONNULL_END
