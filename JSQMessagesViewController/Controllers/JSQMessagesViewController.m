@@ -274,7 +274,10 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     [self jsq_updateKeyboardTriggerPoint];
     
     self.lastKnownSize = self.view.frame.size;
-    [self.collectionView.delegate collectionView:self.collectionView didTransitionToSize:self.lastKnownSize];
+    
+    if ([self.collectionView.delegate respondsToSelector:@selector(collectionView:didTransitionToSize:)]) {
+        [self.collectionView.delegate collectionView:self.collectionView didTransitionToSize:self.lastKnownSize];
+    }
 }
 
 - (void)didReceiveMemoryWarning
