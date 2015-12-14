@@ -35,9 +35,13 @@ typedef NS_ENUM(NSUInteger, JSQMessageKind){
      */
     JSQMessageKindMedia,
     /**
-     *  This represents a server message (third voice on chat)
+     *  This represents a message from the server (like a third voice)
      */
     JSQMessageKindServerMessage,
+    /**
+     *  Same as JSQMessageKindServerMessage but the user can interact with it
+     */
+    JSQMessageKindServerMessageWithAction,
 };
 
 /**
@@ -101,6 +105,8 @@ typedef NS_ENUM(NSUInteger, JSQMessageKind){
 
 /**
  *  @return An ENUM with the kind of message it is.
+ *
+ *  @see JSQMessageKind
  */
 - (JSQMessageKind)messageKind;
 
@@ -108,17 +114,13 @@ typedef NS_ENUM(NSUInteger, JSQMessageKind){
 
 /**
  *  @return The body text of the message.
- *
- *  @warning You must not return `nil` from this method.
  */
-- (NSString *)text;
+- (nullable NSString *)text;
 
 /**
  *  @return The media item of the message.
- *  
- *  @warning You must not return `nil` from this method.
  */
-- (id<JSQMessageMediaData>)media;
+- (nullable id<JSQMessageMediaData>)media;
 
 @end
 
