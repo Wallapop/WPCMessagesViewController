@@ -38,10 +38,6 @@ typedef NS_ENUM(NSUInteger, JSQMessageKind){
      *  This represents a message from the server (like a third voice)
      */
     JSQMessageKindServerMessage,
-    /**
-     *  Same as JSQMessageKindServerMessage but the user can interact with it
-     */
-    JSQMessageKindServerMessageWithAction,
 };
 
 /**

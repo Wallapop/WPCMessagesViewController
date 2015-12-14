@@ -23,9 +23,11 @@
 #import "JSQMessageData.h"
 #import "JSQMessageBubbleImageDataSource.h"
 #import "JSQMessageAvatarImageDataSource.h"
+#import "JSQMessageServerMessageActionButtonDataSource.h"
 
 #import "JSQMessagesCollectionViewCellIncoming.h"
 #import "JSQMessagesCollectionViewCellOutgoing.h"
+#import "JSQMessagesCollectionViewCellServerMessage.h"
 
 #import "JSQMessagesTypingIndicatorFooterView.h"
 #import "JSQMessagesLoadEarlierHeaderView.h"
@@ -137,6 +139,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
     self.incomingCellIdentifier = [JSQMessagesCollectionViewCellIncoming cellReuseIdentifier];
     self.incomingMediaCellIdentifier = [JSQMessagesCollectionViewCellIncoming mediaCellReuseIdentifier];
+    
+    self.serverMessageCellIdentifier = [JSQMessagesCollectionViewCellServerMessage cellReuseIdentifier];
 
     self.showTypingIndicator = NO;
 
@@ -414,6 +418,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 }
 
 #pragma mark - JSQMessages collection view data source
+#pragma mark Required
 
 - (id<JSQMessageData>)collectionView:(JSQMessagesCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -433,6 +438,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     return nil;
 }
 
+#pragma mark Optional
+
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     return nil;
@@ -444,6 +451,16 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
+}
+
+- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForStatusLabelAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
+}
+
+- (id<JSQMessageServerMessageActionButtonDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView actionButtonDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return nil;
 }
@@ -465,12 +482,22 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     id<JSQMessageData> messageItem = [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
     NSParameterAssert(messageItem != nil);
 
+    BOOL isServerMessage = messageItem.messageKind == JSQMessageKindServerMessage;
+    if (!isServerMessage) {
+        return [self collectionView:collectionView chatCellForItemAtIndexPath:indexPath messageItem:messageItem];
+    }
+    
+    return [self collectionView:collectionView serverMessageCellForItemAtIndexPath:indexPath messageItem:messageItem];
+}
+
+- (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView chatCellForItemAtIndexPath:(NSIndexPath *)indexPath messageItem:(id<JSQMessageData>)messageItem
+{
     NSString *messageSenderId = [messageItem senderId];
     NSParameterAssert(messageSenderId != nil);
-
+    
     BOOL isOutgoingMessage = [messageSenderId isEqualToString:self.senderId];
-    BOOL isMediaMessage = [messageItem isMediaMessage];
-
+    BOOL isMediaMessage = messageItem.messageKind == JSQMessageKindMedia;
+    
     NSString *cellIdentifier = nil;
     if (isMediaMessage) {
         cellIdentifier = isOutgoingMessage ? self.outgoingMediaCellIdentifier : self.incomingMediaCellIdentifier;
@@ -478,22 +505,22 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     else {
         cellIdentifier = isOutgoingMessage ? self.outgoingCellIdentifier : self.incomingCellIdentifier;
     }
-
+    
     JSQMessagesCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.delegate = collectionView;
-
+    
     if (!isMediaMessage) {
         cell.textView.text = [messageItem text];
-
+        
         if ([UIDevice jsq_isCurrentDeviceBeforeiOS8]) {
             //  workaround for iOS 7 textView data detectors bug
             cell.textView.text = nil;
             cell.textView.attributedText = [[NSAttributedString alloc] initWithString:[messageItem text]
                                                                            attributes:@{ NSFontAttributeName : collectionView.collectionViewLayout.messageBubbleFont }];
         }
-
+        
         NSParameterAssert(cell.textView.text != nil);
-
+        
         id<JSQMessageBubbleImageDataSource> bubbleImageDataSource = [collectionView.dataSource collectionView:collectionView messageBubbleImageDataForItemAtIndexPath:indexPath];
         cell.messageBubbleImageView.image = [bubbleImageDataSource messageBubbleImage];
         cell.messageBubbleImageView.highlightedImage = [bubbleImageDataSource messageBubbleHighlightedImage];
@@ -503,7 +530,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         cell.mediaView = [messageMedia mediaView] ?: [messageMedia mediaPlaceholderView];
         NSParameterAssert(cell.mediaView != nil);
     }
-
+    
     BOOL needsAvatar = YES;
     if (isOutgoingMessage && CGSizeEqualToSize(collectionView.collectionViewLayout.outgoingAvatarViewSize, CGSizeZero)) {
         needsAvatar = NO;
@@ -511,12 +538,12 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     else if (!isOutgoingMessage && CGSizeEqualToSize(collectionView.collectionViewLayout.incomingAvatarViewSize, CGSizeZero)) {
         needsAvatar = NO;
     }
-
+    
     id<JSQMessageAvatarImageDataSource> avatarImageDataSource = nil;
     if (needsAvatar) {
         avatarImageDataSource = [collectionView.dataSource collectionView:collectionView avatarImageDataForItemAtIndexPath:indexPath];
         if (avatarImageDataSource != nil) {
-
+            
             UIImage *avatarImage = [avatarImageDataSource avatarImage];
             if (avatarImage == nil) {
                 cell.avatarImageView.image = [avatarImageDataSource avatarPlaceholderImage];
@@ -528,26 +555,92 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
             }
         }
     }
-
+    
     cell.cellTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellTopLabelAtIndexPath:indexPath];
     cell.messageBubbleTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:indexPath];
     cell.cellBottomLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellBottomLabelAtIndexPath:indexPath];
-
+    
     CGFloat bubbleTopLabelInset = (avatarImageDataSource != nil) ? 60.0f : 15.0f;
-
+    
     if (isOutgoingMessage) {
         cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, bubbleTopLabelInset);
     }
     else {
         cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, bubbleTopLabelInset, 0.0f, 0.0f);
     }
-
+    
     cell.textView.dataDetectorTypes = UIDataDetectorTypeAll;
-
+    
     cell.backgroundColor = [UIColor clearColor];
     cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     cell.layer.shouldRasterize = YES;
+    
+    return cell;
+}
 
+- (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView serverMessageCellForItemAtIndexPath:(NSIndexPath *)indexPath messageItem:(id<JSQMessageData>)messageItem
+{
+    NSString *cellIdentifier = self.serverMessageCellIdentifier;
+    JSQMessagesCollectionViewCellServerMessage *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    cell.delegate = collectionView;
+    
+    // Text
+    cell.textView.text = [messageItem text];
+    if ([UIDevice jsq_isCurrentDeviceBeforeiOS8]) {
+        //  workaround for iOS 7 textView data detectors bug
+        cell.textView.text = nil;
+        cell.textView.attributedText = [[NSAttributedString alloc] initWithString:[messageItem text]
+                                                                       attributes:@{ NSFontAttributeName : collectionView.collectionViewLayout.messageBubbleFont }];
+    }
+    NSParameterAssert(cell.textView.text != nil);
+    
+    // Status
+    [cell setStatusLabelText:[collectionView.dataSource collectionView:collectionView attributedTextForStatusLabelAtIndexPath:indexPath]];
+    
+    // Action button
+    id<JSQMessageServerMessageActionButtonDataSource> actionButtonDataSource = [collectionView.dataSource collectionView:collectionView actionButtonDataForItemAtIndexPath:indexPath];
+    cell.actionButton = [actionButtonDataSource actionButton];
+    
+    // Dots check
+    NSInteger itemIndexPath = indexPath.item;
+    NSInteger total = [self collectionView:collectionView numberOfItemsInSection:indexPath.section];
+    BOOL isThereMoreItemsBeforeMe = indexPath.item>0;
+    BOOL isThereMoreItemsAfterMe = indexPath.item<total;
+    
+    // Dots Views
+    void(^checkIfServerMessage)(NSIndexPath *, UIView *) = ^(NSIndexPath *indexPath, UIView *dotsView) {
+        id<JSQMessageData> messageData = [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
+        if (messageData.messageKind == JSQMessageKindServerMessage) {
+            // Hide dots
+            dotsView.hidden = YES;
+        }
+    };
+    // Top dots
+    if (!isThereMoreItemsBeforeMe) {
+        // Hide top dots
+        cell.topDotsView.hidden = YES;
+    }
+    else {
+        NSIndexPath *previousIndexPath = [NSIndexPath indexPathForItem:itemIndexPath-1 inSection:indexPath.section];
+        checkIfServerMessage(previousIndexPath, cell.topDotsView);
+    }
+    // Bottom dots
+    if (!isThereMoreItemsAfterMe) {
+        // Hide bottom dots
+        cell.bottomDotsView.hidden = YES;
+    }
+    else {
+        NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:itemIndexPath+1 inSection:indexPath.section];
+        checkIfServerMessage(nextIndexPath, cell.bottomDotsView);
+    }
+    
+    
+    cell.textView.dataDetectorTypes = UIDataDetectorTypeAll;
+    
+    cell.backgroundColor = [UIColor clearColor];
+    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    cell.layer.shouldRasterize = YES;
+    
     return cell;
 }
 

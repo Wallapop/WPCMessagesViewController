@@ -103,4 +103,14 @@
  */
 @property (assign, nonatomic) CGFloat cellBottomLabelHeight;
 
+/**
+ *  TODO
+ */
+@property (assign, nonatomic) UIEdgeInsets statusHeight;
+
+/**
+ *  TODO
+ */
+@property (assign, nonatomic) UIEdgeInsets actionButtonHeight;
+
 @end

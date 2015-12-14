@@ -148,6 +148,11 @@
 @property (copy, nonatomic) NSString *incomingMediaCellIdentifier;
 
 /**
+ *  TODO
+ */
+@property (copy, nonatomic) NSString *serverMessageCellIdentifier;
+
+/**
  *  Specifies whether or not the view controller should show the typing indicator for an incoming message.
  *
  *  @discussion Setting this property to `YES` will animate showing the typing indicator immediately.

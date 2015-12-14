@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="2mP-o5-DKz">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YPB-FM-G65" userLabel="TopDots">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.1176470588" green="0.72941176470000002" blue="0.61176470589999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ACV-7n-3IL" customClass="JSQMessagesCellTextView">
+                        <rect key="frame" x="10" y="20" width="300" height="100"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dba-Hg-Wev" userLabel="Status">
+                        <rect key="frame" x="0.0" y="120" width="320" height="50"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RPs-uy-9a3" userLabel="Button">
+                        <rect key="frame" x="0.0" y="170" width="320" height="50"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yxe-t7-JoP" userLabel="BottomDots">
+                        <rect key="frame" x="0.0" y="220" width="320" height="20"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.1176470588" green="0.72941176470000002" blue="0.61176470589999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </subviews>
+                <animations/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <animations/>
+            <size key="customSize" width="359" height="240"/>
+            <point key="canvasLocation" x="325" y="331"/>
+        </collectionViewCell>
+    </objects>
+</document>
