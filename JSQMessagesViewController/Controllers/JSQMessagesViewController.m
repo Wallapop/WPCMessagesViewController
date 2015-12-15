@@ -163,22 +163,11 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
     _collectionView.dataSource = nil;
     _collectionView.delegate = nil;
-    _collectionView = nil;
 
     _inputToolbar.contentView.textView.delegate = nil;
     _inputToolbar.delegate = nil;
-    _inputToolbar = nil;
-
-    _toolbarHeightConstraint = nil;
-    _toolbarBottomLayoutGuide = nil;
-
-    _senderId = nil;
-    _senderDisplayName = nil;
-    _outgoingCellIdentifier = nil;
-    _incomingCellIdentifier = nil;
 
     [_keyboardController endListeningForKeyboard];
-    _keyboardController = nil;
 }
 
 #pragma mark - Setters
@@ -599,7 +588,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     
     // Action button
     id<JSQMessageServerMessageActionButtonDataSource> actionButtonDataSource = [collectionView.dataSource collectionView:collectionView actionButtonDataForItemAtIndexPath:indexPath];
-    cell.actionButton = [actionButtonDataSource actionButton];
+    cell.actionView = [actionButtonDataSource actionButton];
     
     // Dots check
     NSInteger itemIndexPath = indexPath.item;

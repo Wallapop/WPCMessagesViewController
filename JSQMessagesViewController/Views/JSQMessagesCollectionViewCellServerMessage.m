@@ -20,16 +20,16 @@
 
 @interface JSQMessagesCollectionViewCellServerMessage ()
 
-@property (weak, nonatomic) UIImageView *topDotsView;
+@property (weak, nonatomic) IBOutlet UIImageView *topDotsView;
 
-@property (weak, nonatomic) JSQMessagesCellTextView *textView;
+@property (weak, nonatomic) IBOutlet JSQMessagesCellTextView *textView;
 
-@property (weak, nonatomic) UIView *statusView;
-@property (weak, nonatomic) JSQMessagesLabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UIView *statusViewContainer;
+@property (weak, nonatomic) IBOutlet JSQMessagesLabel *statusLabel;
 
-@property (weak, nonatomic) UIView *actionView;
+@property (weak, nonatomic) IBOutlet UIView *actionViewContainer;
 
-@property (weak, nonatomic) UIImageView *bottomDotsView;
+@property (weak, nonatomic) IBOutlet UIImageView *bottomDotsView;
 
 @property (weak, nonatomic, readwrite) UITapGestureRecognizer *tapGestureRecognizer;
 
@@ -101,7 +101,7 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     
     [self setStatusLabelText:nil];
     
-    self.actionButton = nil;
+    self.actionView = nil;
     
     self.bottomDotsView.hidden = NO;
 }
@@ -122,7 +122,7 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     if ([jsqMessagesCollectionViewCellActions containsObject:NSStringFromSelector(anInvocation.selector)]) {
         __unsafe_unretained id sender;
         [anInvocation getArgument:&sender atIndex:0];
-        [self.delegate messagesCollectionViewCell:self didPerformAction:anInvocation.selector withSender:sender];
+        [self.delegate messagesCollectionViewCellServerMessage:self didPerformAction:anInvocation.selector withSender:sender];
     }
     else {
         [super forwardInvocation:anInvocation];
@@ -146,10 +146,10 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     
     self.topDotsView.backgroundColor = backgroundColor;
     self.textView.backgroundColor = backgroundColor;
-    self.statusView.backgroundColor = backgroundColor;
+    self.statusViewContainer.backgroundColor = backgroundColor;
     self.statusLabel.backgroundColor = backgroundColor;
+    self.actionViewContainer.backgroundColor = backgroundColor;
     self.actionView.backgroundColor = backgroundColor;
-    self.actionButton.backgroundColor = backgroundColor;
     self.bottomDotsView.backgroundColor = backgroundColor;
 }
 
@@ -157,21 +157,21 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
 {
     self.statusLabel.attributedText = text;
     if (text) {
-        self.statusView.hidden = NO;
+        self.statusViewContainer.hidden = NO;
     }
     else {
-        self.statusView.hidden = YES;
+        self.statusViewContainer.hidden = YES;
     }
 }
 
-- (void)setActionButton:(UIView *)actionButton
+- (void)setActionView:(UIView *)actionView
 {
-    self.actionButton = actionButton;
-    if (actionButton) {
-        self.actionView.hidden = NO;
+    _actionView = actionView;
+    if (actionView) {
+        self.actionViewContainer.hidden = NO;
     }
     else {
-        self.actionView.hidden = YES;
+        self.actionViewContainer.hidden = YES;
     }
 }
 
@@ -180,13 +180,7 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
 - (void)jsq_handleTapGesture:(UITapGestureRecognizer *)tap
 {
     CGPoint touchPt = [tap locationInView:self];
-    
-    if (CGRectContainsPoint(self.actionView.frame, touchPt)) {
-        [self.delegate messagesCollectionViewCellDidTapActionView:self];
-    }
-    else {
-        [self.delegate messagesCollectionViewCellDidTapCell:self atPosition:touchPt];
-    }
+    [self.delegate messagesCollectionViewCellServerMessageDidTapCell:self atPosition:touchPt];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch

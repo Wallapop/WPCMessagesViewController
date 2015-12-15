@@ -21,6 +21,7 @@
 #import "JSQMessagesCollectionViewFlowLayout.h"
 #import "JSQMessagesCollectionViewCellIncoming.h"
 #import "JSQMessagesCollectionViewCellOutgoing.h"
+#import "JSQMessagesCollectionViewCellServerMessage.h"
 
 #import "JSQMessagesTypingIndicatorFooterView.h"
 #import "JSQMessagesLoadEarlierHeaderView.h"
@@ -63,6 +64,9 @@
     
     [self registerNib:[JSQMessagesCollectionViewCellOutgoing nib]
           forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellOutgoing mediaCellReuseIdentifier]];
+    
+    [self registerNib:[JSQMessagesCollectionViewCellServerMessage nib]
+          forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellServerMessage cellReuseIdentifier]];
     
     [self registerNib:[JSQMessagesTypingIndicatorFooterView nib]
           forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
@@ -176,6 +180,33 @@
         return;
     }
 
+    [self.delegate collectionView:self
+                    performAction:action
+               forItemAtIndexPath:indexPath
+                       withSender:sender];
+}
+
+#pragma mark - Messages collection view cell server message delegate
+
+- (void)messagesCollectionViewCellServerMessageDidTapCell:(JSQMessagesCollectionViewCellServerMessage *)cell atPosition:(CGPoint)position
+{
+    NSIndexPath *indexPath = [self indexPathForCell:cell];
+    if (indexPath == nil) {
+        return;
+    }
+    
+    [self.delegate collectionView:self
+            didTapCellAtIndexPath:indexPath
+                    touchLocation:position];
+}
+
+- (void)messagesCollectionViewCellServerMessage:(JSQMessagesCollectionViewCellServerMessage *)cell didPerformAction:(SEL)action withSender:(id)sender
+{
+    NSIndexPath *indexPath = [self indexPathForCell:cell];
+    if (indexPath == nil) {
+        return;
+    }
+    
     [self.delegate collectionView:self
                     performAction:action
                forItemAtIndexPath:indexPath

@@ -27,7 +27,7 @@
  *  The `JSQMessagesCollectionViewCellDelegate` protocol defines methods that allow you to manage
  *  additional interactions within the collection view cell.
  */
-@protocol JSQMessagesCollectionViewCellDelegate <NSObject>
+@protocol JSQMessagesCollectionViewCellServerMessageDelegate <NSObject>
 
 @required
 
@@ -39,14 +39,7 @@
  *
  *  @see `JSQMessagesCollectionViewCellServerMessage`
  */
-- (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCellServerMessage *)cell atPosition:(CGPoint)position;
-
-/**
- *  Tells the delegate that the action view of the cell has been tapped.
- *
- *  @param cell The cell that received the tap touch event.
- */
-- (void)messagesCollectionViewCellDidTapActionView:(JSQMessagesCollectionViewCellServerMessage *)cell;
+- (void)messagesCollectionViewCellServerMessageDidTapCell:(JSQMessagesCollectionViewCellServerMessage *)cell atPosition:(CGPoint)position;
 
 /**
  *  Tells the delegate that an actions has been selected from the menu of this cell.
@@ -58,7 +51,7 @@
  *
  *  @see `JSQMessagesCollectionViewCellServerMessage`
  */
-- (void)messagesCollectionViewCell:(JSQMessagesCollectionViewCellServerMessage *)cell didPerformAction:(SEL)action withSender:(id)sender;
+- (void)messagesCollectionViewCellServerMessage:(JSQMessagesCollectionViewCellServerMessage *)cell didPerformAction:(SEL)action withSender:(id)sender;
 
 @end
 
@@ -67,7 +60,7 @@
 /**
  *  The object that acts as the delegate for the cell.
  */
-@property (weak, nonatomic) id<JSQMessagesCollectionViewCellDelegate> delegate;
+@property (weak, nonatomic) id<JSQMessagesCollectionViewCellServerMessageDelegate> delegate;
 
 /**
  *  The top dots view of the cell. This view displays an image of 2 dots to separate server messages.
@@ -87,7 +80,7 @@
 /**
  *  The button view of the cell. This view displays (optionally) a view with a button.
  */
-@property (weak, nonatomic, readwrite) UIView *actionButton;
+@property (strong, nonatomic) UIView *actionView;
 
 /**
  *  The bottom dots view of the cell. This view displays an image of 2 dots to separate server messages.
