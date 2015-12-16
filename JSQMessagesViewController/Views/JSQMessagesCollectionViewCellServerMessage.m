@@ -20,7 +20,7 @@
 
 @interface JSQMessagesCollectionViewCellServerMessage ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *topDotsView;
+@property (weak, nonatomic) IBOutlet UIImageView *topImageView;
 
 @property (weak, nonatomic) IBOutlet JSQMessagesCellTextView *textView;
 
@@ -29,7 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *actionViewContainer;
 
-@property (weak, nonatomic) IBOutlet UIImageView *bottomDotsView;
+@property (weak, nonatomic) IBOutlet UIImageView *bottomImageView;
 
 @property (weak, nonatomic, readwrite) UITapGestureRecognizer *tapGestureRecognizer;
 
@@ -100,8 +100,8 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     [self setStatusLabelText:nil];
     self.actionView = nil;
     
-    self.topDotsViewHeightConstraint.constant = 20.f;
-    self.bottomDotsViewHeightConstraint.constant = 20.f;
+    self.topImageViewHeightConstraint.constant = 20.f;
+    self.bottomImageViewHeightConstraint.constant = 20.f;
 }
 
 #pragma mark - Menu actions
@@ -142,12 +142,12 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
 {
     [super setBackgroundColor:backgroundColor];
     
-    self.topDotsView.backgroundColor = backgroundColor;
+    self.topImageView.backgroundColor = backgroundColor;
     self.textView.backgroundColor = backgroundColor;
     self.statusViewContainer.backgroundColor = backgroundColor;
     self.statusLabel.backgroundColor = backgroundColor;
     self.actionViewContainer.backgroundColor = backgroundColor;
-    self.bottomDotsView.backgroundColor = backgroundColor;
+    self.bottomImageView.backgroundColor = backgroundColor;
 }
 
 - (void)setStatusLabelText:(NSAttributedString *)text

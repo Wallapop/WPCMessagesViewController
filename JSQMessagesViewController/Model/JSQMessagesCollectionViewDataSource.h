@@ -147,4 +147,7 @@
 
 - (id<JSQMessageServerMessageActionButtonDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView actionButtonDataForItemAtIndexPath:(NSIndexPath *)indexPath;
 
+- (UIImage *)collectionView:(JSQMessagesCollectionView *)collectionView topImageForServerMessageViewAtIndexPath:(NSIndexPath *)indexPath;
+- (UIImage *)collectionView:(JSQMessagesCollectionView *)collectionView bottomImageForServerMessageViewAtIndexPath:(NSIndexPath *)indexPath;
+
 @end

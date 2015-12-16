@@ -91,14 +91,14 @@
             <connections>
                 <outlet property="actionViewContainer" destination="RPs-uy-9a3" id="Ybp-qf-FLZ"/>
                 <outlet property="actionViewHeightConstraint" destination="PeJ-80-dLh" id="OiK-gZ-5jP"/>
-                <outlet property="bottomDotsView" destination="Cyu-B5-OLC" id="m0P-m9-MHo"/>
-                <outlet property="bottomDotsViewHeightConstraint" destination="RUO-Ef-YYJ" id="qcs-gn-ABa"/>
+                <outlet property="bottomImageView" destination="Cyu-B5-OLC" id="dGm-o3-Q47"/>
+                <outlet property="bottomImageViewHeightConstraint" destination="RUO-Ef-YYJ" id="udj-gL-xYT"/>
                 <outlet property="statusLabel" destination="iZX-8H-jVK" id="Lyw-BC-YYv"/>
                 <outlet property="statusViewContainer" destination="dba-Hg-Wev" id="bPj-MW-IzM"/>
                 <outlet property="statusViewHeightConstraint" destination="JXy-Gl-hv8" id="pac-UY-L4o"/>
                 <outlet property="textView" destination="ACV-7n-3IL" id="acb-1c-t1x"/>
-                <outlet property="topDotsView" destination="yT8-Hh-qzQ" id="2yd-GC-nCg"/>
-                <outlet property="topDotsViewHeightConstraint" destination="4nz-uC-2ho" id="xxd-Ve-3qj"/>
+                <outlet property="topImageView" destination="yT8-Hh-qzQ" id="aTe-ez-vlu"/>
+                <outlet property="topImageViewHeightConstraint" destination="4nz-uC-2ho" id="wr2-lJ-rZt"/>
             </connections>
             <point key="canvasLocation" x="452" y="326"/>
         </collectionViewCell>

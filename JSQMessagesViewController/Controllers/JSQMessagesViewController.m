@@ -454,6 +454,16 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     return nil;
 }
 
+- (UIImage *)collectionView:(JSQMessagesCollectionView *)collectionView topImageForServerMessageViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
+}
+
+- (UIImage *)collectionView:(JSQMessagesCollectionView *)collectionView bottomImageForServerMessageViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
+}
+
 #pragma mark - Collection view data source
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -587,7 +597,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     NSParameterAssert(cell.textView.text != nil);
     
     // Status
-    [cell setStatusLabelText:[collectionView.dataSource collectionView:collectionView attributedTextForStatusLabelAtIndexPath:indexPath]];
+    NSAttributedString *statusText = [collectionView.dataSource collectionView:collectionView attributedTextForStatusLabelAtIndexPath:indexPath];
+    [cell setStatusLabelText:statusText];
     
     // Action button
     id<JSQMessageServerMessageActionButtonDataSource> actionButtonDataSource = [collectionView.dataSource collectionView:collectionView actionButtonDataForItemAtIndexPath:indexPath];
@@ -609,21 +620,23 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         };
         // Top dots
         if (!isThereMoreItemsBeforeMe) {
-            cell.topDotsViewHeightConstraint.constant = 0.f;
+            cell.topImageViewHeightConstraint.constant = 0.f;
         }
         else {
             NSIndexPath *previousIndexPath = [NSIndexPath indexPathForItem:itemIndexPath-1 inSection:indexPath.section];
-            checkIfServerMessage(previousIndexPath, cell.topDotsViewHeightConstraint);
+            checkIfServerMessage(previousIndexPath, cell.topImageViewHeightConstraint);
         }
         // Bottom dots
         if (!isThereMoreItemsAfterMe) {
-            cell.bottomDotsViewHeightConstraint.constant = 0.f;
+            cell.bottomImageViewHeightConstraint.constant = 0.f;
         }
         else {
             NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:itemIndexPath+1 inSection:indexPath.section];
-            checkIfServerMessage(nextIndexPath, cell.bottomDotsViewHeightConstraint);
+            checkIfServerMessage(nextIndexPath, cell.bottomImageViewHeightConstraint);
         }
     }
+    cell.topImageView.image = [collectionView.dataSource collectionView:collectionView topImageForServerMessageViewAtIndexPath:indexPath];
+    cell.bottomImageView.image = [collectionView.dataSource collectionView:collectionView bottomImageForServerMessageViewAtIndexPath:indexPath];
     
     // General
     cell.textView.dataDetectorTypes = UIDataDetectorTypeAll;
@@ -748,14 +761,14 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopDotsViewAtIndexPath:(NSIndexPath *)indexPath
 {
     JSQMessagesCollectionViewCellServerMessage *cell = (JSQMessagesCollectionViewCellServerMessage *)[collectionView cellForItemAtIndexPath:indexPath];
-    return cell.topDotsViewHeightConstraint.constant;
+    return cell.topImageViewHeightConstraint.constant;
 }
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomDotsViewAtIndexPath:(NSIndexPath *)indexPath
 {
     JSQMessagesCollectionViewCellServerMessage *cell = (JSQMessagesCollectionViewCellServerMessage *)[collectionView cellForItemAtIndexPath:indexPath];
-    return cell.bottomDotsViewHeightConstraint.constant;
+    return cell.bottomImageViewHeightConstraint.constant;
 }
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
