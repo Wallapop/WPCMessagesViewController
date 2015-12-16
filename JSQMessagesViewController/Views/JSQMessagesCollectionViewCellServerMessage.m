@@ -147,7 +147,6 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     self.statusViewContainer.backgroundColor = backgroundColor;
     self.statusLabel.backgroundColor = backgroundColor;
     self.actionViewContainer.backgroundColor = backgroundColor;
-    self.actionView.backgroundColor = backgroundColor;
     self.bottomDotsView.backgroundColor = backgroundColor;
 }
 
@@ -164,13 +163,20 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
 
 - (void)setActionView:(UIView *)actionView
 {
-    _actionView = actionView;
+    if (_actionView) {
+        [_actionView removeFromSuperview];
+    }
+    
     if (actionView) {
         self.actionViewHeightConstraint.constant = 50.f;
+        [self.actionViewContainer addSubview:actionView];
+        [self applyAutolayoutToActionView:actionView container:self.actionViewContainer];
     }
     else {
         self.actionViewHeightConstraint.constant = 0.f;
     }
+    
+    _actionView = actionView;
 }
 
 #pragma mark - Gesture recognizers
@@ -190,6 +196,47 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     }
     
     return YES;
+}
+
+#pragma mark - Private
+
+- (void)applyAutolayoutToActionView:(UIView *)view container:(UIView *)container
+{
+    if (view.translatesAutoresizingMaskIntoConstraints) {
+        CGFloat width = CGRectGetWidth(view.frame);
+        CGFloat height = CGRectGetHeight(view.frame);
+        view.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [view addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                         attribute:NSLayoutAttributeWidth
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:nil
+                                                         attribute:NSLayoutAttributeNotAnAttribute
+                                                        multiplier:1.f
+                                                          constant:width]];
+        [view addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                         attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:nil
+                                                         attribute:NSLayoutAttributeNotAnAttribute
+                                                        multiplier:1.f
+                                                          constant:height]];
+    }
+    
+    [container addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:container
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1.f
+                                                           constant:0.f]];
+    [container addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                          attribute:NSLayoutAttributeCenterY
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:container
+                                                          attribute:NSLayoutAttributeCenterY
+                                                         multiplier:1.f
+                                                           constant:0.f]];
 }
 
 @end
