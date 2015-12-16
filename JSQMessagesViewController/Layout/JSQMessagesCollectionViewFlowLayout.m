@@ -500,7 +500,7 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     CGFloat verticalInsets = topDotsViewHeight + statusViewHeight + actionViewHeight + bottomDotsViewHeight + 2.0f;
     
     //  same as above, an extra 2 points of magix
-    CGFloat finalWidth = CGRectGetWidth(self.collectionView.frame);
+    CGFloat finalWidth = self.itemWidth;
     
     return CGSizeMake(finalWidth, ceilf(stringSize.height + verticalInsets));
 }
