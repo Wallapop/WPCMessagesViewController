@@ -574,12 +574,15 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     cell.delegate = collectionView;
     
     // Text
-    cell.textView.text = [messageItem text];
     if ([UIDevice jsq_isCurrentDeviceBeforeiOS8]) {
         //  workaround for iOS 7 textView data detectors bug
         cell.textView.text = nil;
         cell.textView.attributedText = [[NSAttributedString alloc] initWithString:[messageItem text]
                                                                        attributes:@{ NSFontAttributeName : collectionView.collectionViewLayout.messageBubbleFont }];
+    }
+    else {
+        cell.textView.text = [messageItem text];
+        cell.textView.font = collectionView.collectionViewLayout.messageBubbleFont;
     }
     NSParameterAssert(cell.textView.text != nil);
     

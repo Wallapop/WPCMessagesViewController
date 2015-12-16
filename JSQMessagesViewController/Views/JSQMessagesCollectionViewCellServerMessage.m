@@ -144,35 +144,35 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
 {
     [super setBackgroundColor:backgroundColor];
     
-    self.topDotsView.backgroundColor = backgroundColor;
-    self.textView.backgroundColor = backgroundColor;
-    self.statusViewContainer.backgroundColor = backgroundColor;
-    self.statusLabel.backgroundColor = backgroundColor;
-    self.actionViewContainer.backgroundColor = backgroundColor;
-    self.actionView.backgroundColor = backgroundColor;
-    self.bottomDotsView.backgroundColor = backgroundColor;
+//    self.topDotsView.backgroundColor = backgroundColor;
+//    self.textView.backgroundColor = backgroundColor;
+//    self.statusViewContainer.backgroundColor = backgroundColor;
+//    self.statusLabel.backgroundColor = backgroundColor;
+//    self.actionViewContainer.backgroundColor = backgroundColor;
+//    self.actionView.backgroundColor = backgroundColor;
+//    self.bottomDotsView.backgroundColor = backgroundColor;
 }
 
 - (void)setStatusLabelText:(NSAttributedString *)text
 {
     self.statusLabel.attributedText = text;
-    if (text) {
-        self.statusViewContainer.hidden = NO;
-    }
-    else {
-        self.statusViewContainer.hidden = YES;
-    }
+//    if (text) {
+//        self.statusViewContainer.hidden = NO;
+//    }
+//    else {
+//        self.statusViewContainer.hidden = YES;
+//    }
 }
 
 - (void)setActionView:(UIView *)actionView
 {
     _actionView = actionView;
-    if (actionView) {
-        self.actionViewContainer.hidden = NO;
-    }
-    else {
-        self.actionViewContainer.hidden = YES;
-    }
+//    if (actionView) {
+//        self.actionViewContainer.hidden = NO;
+//    }
+//    else {
+//        self.actionViewContainer.hidden = YES;
+//    }
 }
 
 #pragma mark - Gesture recognizers

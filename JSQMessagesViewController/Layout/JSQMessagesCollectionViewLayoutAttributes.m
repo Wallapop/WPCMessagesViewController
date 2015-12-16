@@ -47,7 +47,7 @@
 
 - (void)setMessageBubbleContainerViewWidth:(CGFloat)messageBubbleContainerViewWidth
 {
-    NSParameterAssert(messageBubbleContainerViewWidth > 0.0f);
+    //NSParameterAssert(messageBubbleContainerViewWidth > 0.0f);
     _messageBubbleContainerViewWidth = ceilf(messageBubbleContainerViewWidth);
 }
 

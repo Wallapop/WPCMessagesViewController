@@ -502,8 +502,7 @@
     
     JSQMessage *msg = [self.demoData.messages objectAtIndex:indexPath.item];
     
-    if (!msg.isMediaMessage) {
-        
+    if (msg.messageKind==JSQMessageKindText) {
         if ([msg.senderId isEqualToString:self.senderId]) {
             cell.textView.textColor = [UIColor blackColor];
         }
@@ -511,6 +510,11 @@
             cell.textView.textColor = [UIColor whiteColor];
         }
         
+        cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
+                                              NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
+    }
+    if (msg.messageKind==JSQMessageKindServerMessage) {
+        cell.textView.textColor = [UIColor lightGrayColor];
         cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
