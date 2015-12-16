@@ -118,6 +118,11 @@ typedef NS_ENUM(NSUInteger, JSQMessageKind){
  */
 - (nullable id<JSQMessageMediaData>)media;
 
+/**
+ *  @return The view to display for the server message.
+ */
+- (nullable UIView *)serverMessageView;
+
 @end
 
 NS_ASSUME_NONNULL_END

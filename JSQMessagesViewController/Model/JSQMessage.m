@@ -60,6 +60,8 @@
  */
 @property (assign, nonatomic, readonly) JSQMessageKind messageKind;
 
+@property (readwrite, nonatomic) UIView *serverMessageView;
+
 @end
 
 
@@ -69,10 +71,18 @@
 
 + (instancetype)messageWithSenderId:(NSString *)senderId
                         displayName:(NSString *)displayName
-                               text:(NSString *)text
-                               kind:(JSQMessageKind)kind
+                  serverMessageView:(UIView *)serverMessageView
 {
-    return [[self alloc] initWithSenderId:senderId senderDisplayName:displayName date:[NSDate date] text:text kind:kind];
+    return [[self alloc] initWithSenderId:senderId senderDisplayName:displayName date:[NSDate date] serverMessageView:serverMessageView];
+}
+
+- (instancetype)initWithSenderId:(NSString *)senderId
+               senderDisplayName:(NSString *)senderDisplayName
+                            date:(NSDate *)date
+               serverMessageView:(UIView *)serverMessageView
+{
+    NSParameterAssert(serverMessageView != nil);
+    return [self initWithSenderId:senderId senderDisplayName:senderDisplayName date:date text:nil media:nil serverMessageView:serverMessageView kind:JSQMessageKindServerMessage];
 }
 
 - (instancetype)initWithSenderId:(NSString *)senderId
@@ -119,6 +129,31 @@
         _date = [date copy];
         _text = [text copy];
         _media = media;
+        _messageKind = kind;
+    }
+    return self;
+}
+
+- (instancetype)initWithSenderId:(NSString *)senderId
+               senderDisplayName:(NSString *)senderDisplayName
+                            date:(NSDate *)date
+                            text:(nullable NSString *)text
+                           media:(nullable id<JSQMessageMediaData>)media
+               serverMessageView:(UIView *)serverMessageView
+                            kind:(JSQMessageKind)kind
+{
+    NSParameterAssert(senderId != nil);
+    NSParameterAssert(senderDisplayName != nil);
+    NSParameterAssert(date != nil);
+    
+    self = [super init];
+    if (self) {
+        _senderId = [senderId copy];
+        _senderDisplayName = [senderDisplayName copy];
+        _date = [date copy];
+        _text = [text copy];
+        _media = media;
+        _serverMessageView = serverMessageView;
         _messageKind = kind;
     }
     return self;

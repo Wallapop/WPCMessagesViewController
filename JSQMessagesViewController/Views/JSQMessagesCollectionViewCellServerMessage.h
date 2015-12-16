@@ -32,16 +32,6 @@
 @required
 
 /**
- *  Tells the delegate that the cell has been tapped at the point specified by position.
- *
- *  @param cell The cell that received the tap touch event.
- *  @param position The location of the received touch in the cell's coordinate system.
- *
- *  @see `JSQMessagesCollectionViewCellServerMessage`
- */
-- (void)messagesCollectionViewCellServerMessageDidTapCell:(JSQMessagesCollectionViewCellServerMessage *)cell atPosition:(CGPoint)position;
-
-/**
  *  Tells the delegate that an actions has been selected from the menu of this cell.
  *  This method is automatically called for any registered actions.
  *
@@ -57,40 +47,12 @@
 
 @interface JSQMessagesCollectionViewCellServerMessage : UICollectionViewCell
 
+- (void)displayWithView:(UIView *)view;
+
 /**
  *  The object that acts as the delegate for the cell.
  */
 @property (weak, nonatomic) id<JSQMessagesCollectionViewCellServerMessageDelegate> delegate;
-
-/**
- *  The top dots view of the cell. This view displays an image of 2 dots to separate server messages.
- */
-@property (weak, nonatomic, readonly) UIView *topDotsView;
-
-/**
- *  Returns the text view of the cell. This text view contains the message body text.
- */
-@property (weak, nonatomic, readonly) JSQMessagesCellTextView *textView;
-
-/**
- *  The status view of the cell. This view displays a label to show separated info.
- */
-@property (weak, nonatomic, readonly) JSQMessagesLabel *statusLabel;
-
-/**
- *  The button view of the cell. This view displays (optionally) a view with a button.
- */
-@property (strong, nonatomic) UIView *actionView;
-
-/**
- *  The bottom dots view of the cell. This view displays an image of 2 dots to separate server messages.
- */
-@property (weak, nonatomic, readonly) UIView *bottomDotsView;
-
-/**
- *  TODO
- */
-- (void)setStatusLabelText:(NSAttributedString *)text;
 
 #pragma mark - Class methods
 

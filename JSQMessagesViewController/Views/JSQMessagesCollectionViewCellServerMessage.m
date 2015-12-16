@@ -20,19 +20,6 @@
 
 @interface JSQMessagesCollectionViewCellServerMessage ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *topDotsView;
-
-@property (weak, nonatomic) IBOutlet JSQMessagesCellTextView *textView;
-
-@property (weak, nonatomic) IBOutlet UIView *statusViewContainer;
-@property (weak, nonatomic) IBOutlet JSQMessagesLabel *statusLabel;
-
-@property (weak, nonatomic) IBOutlet UIView *actionViewContainer;
-
-@property (weak, nonatomic) IBOutlet UIImageView *bottomDotsView;
-
-@property (weak, nonatomic, readwrite) UITapGestureRecognizer *tapGestureRecognizer;
-
 @end
 
 @implementation JSQMessagesCollectionViewCellServerMessage
@@ -73,37 +60,39 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     [self setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     self.backgroundColor = [UIColor clearColor];
-    
-    self.textView.textAlignment = NSTextAlignmentCenter;
-    self.textView.font = [UIFont boldSystemFontOfSize:14.0f];
-    self.textView.textColor = [UIColor lightGrayColor];
-    
-    self.statusLabel.textAlignment = NSTextAlignmentCenter;
-    self.statusLabel.font = [UIFont systemFontOfSize:16.0f];
-    self.statusLabel.textColor = [UIColor lightGrayColor];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jsq_handleTapGesture:)];
-    [self addGestureRecognizer:tap];
-    self.tapGestureRecognizer = tap;
 }
 
 #pragma mark - Collection view cell
 
 - (void)prepareForReuse
 {
-    [super prepareForReuse];
+    [super prepareForReuse];    
+}
+
+#pragma mark - Public API
+
+- (void)displayWithView:(UIView *)view
+{
+    [self.contentView addSubview:view];
     
-    self.topDotsView.hidden = NO;
+    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-    self.textView.dataDetectorTypes = UIDataDetectorTypeNone;
-    self.textView.text = nil;
-    self.textView.attributedText = nil;
-    
-    [self setStatusLabelText:nil];
-    
-    self.actionView = nil;
-    
-    self.bottomDotsView.hidden = NO;
+    //Constrain to our size
+    {
+        NSDictionary *views = NSDictionaryOfVariableBindings(view);
+        
+        [self.contentView addConstraints:[NSLayoutConstraint
+                                          constraintsWithVisualFormat:@"H:|-0-[view]-0-|"
+                                          options:NSLayoutFormatDirectionLeadingToTrailing
+                                          metrics:nil
+                                          views:views]];
+        
+        [self.contentView addConstraints:[NSLayoutConstraint
+                                          constraintsWithVisualFormat:@"V:|-0-[view]-0-|"
+                                          options:NSLayoutFormatDirectionLeadingToTrailing
+                                          metrics:nil
+                                          views:views]];
+    }
 }
 
 #pragma mark - Menu actions
@@ -136,62 +125,6 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     }
     
     return [super methodSignatureForSelector:aSelector];
-}
-
-#pragma mark - Setters
-
-- (void)setBackgroundColor:(UIColor *)backgroundColor
-{
-    [super setBackgroundColor:backgroundColor];
-    
-//    self.topDotsView.backgroundColor = backgroundColor;
-//    self.textView.backgroundColor = backgroundColor;
-//    self.statusViewContainer.backgroundColor = backgroundColor;
-//    self.statusLabel.backgroundColor = backgroundColor;
-//    self.actionViewContainer.backgroundColor = backgroundColor;
-//    self.actionView.backgroundColor = backgroundColor;
-//    self.bottomDotsView.backgroundColor = backgroundColor;
-}
-
-- (void)setStatusLabelText:(NSAttributedString *)text
-{
-    self.statusLabel.attributedText = text;
-//    if (text) {
-//        self.statusViewContainer.hidden = NO;
-//    }
-//    else {
-//        self.statusViewContainer.hidden = YES;
-//    }
-}
-
-- (void)setActionView:(UIView *)actionView
-{
-    _actionView = actionView;
-//    if (actionView) {
-//        self.actionViewContainer.hidden = NO;
-//    }
-//    else {
-//        self.actionViewContainer.hidden = YES;
-//    }
-}
-
-#pragma mark - Gesture recognizers
-
-- (void)jsq_handleTapGesture:(UITapGestureRecognizer *)tap
-{
-    CGPoint touchPt = [tap locationInView:self];
-    [self.delegate messagesCollectionViewCellServerMessageDidTapCell:self atPosition:touchPt];
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    CGPoint touchPt = [touch locationInView:self];
-    
-    if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
-        return CGRectContainsPoint(self.textView.frame, touchPt);
-    }
-    
-    return YES;
 }
 
 

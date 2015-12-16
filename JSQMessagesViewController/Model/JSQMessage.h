@@ -32,17 +32,12 @@
 #pragma mark - Initialization
 
 /**
- *  Initializes and returns a message object having the given senderId, displayName, text,
- *  and current system date.
- *
- *  @param senderId    The unique identifier for the user who sent the message. This value must not be `nil`.
- *  @param displayName The display name for the user who sent the message. This value must not be `nil`.
- *  @param text        The body text of the message. This value must not be `nil`.
- *
- *  @discussion Initializing a `JSQMessage` with this method will set `isMediaMessage` to `NO`.
- *
- *  @return An initialized `JSQMessage` object if successful, `nil` otherwise.
+ *  TODO
  */
++ (instancetype)messageWithSenderId:(NSString *)senderId
+                        displayName:(NSString *)displayName
+                  serverMessageView:(UIView *)serverMessageView;
+
 + (instancetype)messageWithSenderId:(NSString *)senderId
                         displayName:(NSString *)displayName
                                text:(NSString *)text
