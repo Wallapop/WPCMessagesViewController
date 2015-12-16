@@ -93,17 +93,15 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
 {
     [super prepareForReuse];
     
-    self.topDotsView.hidden = NO;
-    
     self.textView.dataDetectorTypes = UIDataDetectorTypeNone;
     self.textView.text = nil;
     self.textView.attributedText = nil;
     
     [self setStatusLabelText:nil];
-    
     self.actionView = nil;
     
-    self.bottomDotsView.hidden = NO;
+    self.topDotsViewHeightConstraint.constant = 20.f;
+    self.bottomDotsViewHeightConstraint.constant = 20.f;
 }
 
 #pragma mark - Menu actions
@@ -144,35 +142,35 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
 {
     [super setBackgroundColor:backgroundColor];
     
-//    self.topDotsView.backgroundColor = backgroundColor;
-//    self.textView.backgroundColor = backgroundColor;
-//    self.statusViewContainer.backgroundColor = backgroundColor;
-//    self.statusLabel.backgroundColor = backgroundColor;
-//    self.actionViewContainer.backgroundColor = backgroundColor;
-//    self.actionView.backgroundColor = backgroundColor;
-//    self.bottomDotsView.backgroundColor = backgroundColor;
+    self.topDotsView.backgroundColor = backgroundColor;
+    self.textView.backgroundColor = backgroundColor;
+    self.statusViewContainer.backgroundColor = backgroundColor;
+    self.statusLabel.backgroundColor = backgroundColor;
+    self.actionViewContainer.backgroundColor = backgroundColor;
+    self.actionView.backgroundColor = backgroundColor;
+    self.bottomDotsView.backgroundColor = backgroundColor;
 }
 
 - (void)setStatusLabelText:(NSAttributedString *)text
 {
     self.statusLabel.attributedText = text;
-//    if (text) {
-//        self.statusViewContainer.hidden = NO;
-//    }
-//    else {
-//        self.statusViewContainer.hidden = YES;
-//    }
+    if (text) {
+        self.statusViewHeightConstraint.constant = 50.f;
+    }
+    else {
+        self.statusViewHeightConstraint.constant = 0.f;
+    }
 }
 
 - (void)setActionView:(UIView *)actionView
 {
     _actionView = actionView;
-//    if (actionView) {
-//        self.actionViewContainer.hidden = NO;
-//    }
-//    else {
-//        self.actionViewContainer.hidden = YES;
-//    }
+    if (actionView) {
+        self.actionViewHeightConstraint.constant = 50.f;
+    }
+    else {
+        self.actionViewHeightConstraint.constant = 0.f;
+    }
 }
 
 #pragma mark - Gesture recognizers
@@ -193,6 +191,5 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     
     return YES;
 }
-
 
 @end

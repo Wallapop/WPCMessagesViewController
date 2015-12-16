@@ -481,11 +481,19 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     
     CGSize stringSize = CGRectIntegral(stringRect).size;
     
-    // TODO: check real heights
-    CGFloat topDotsViewHeight = 20.f;
-    CGFloat statusViewHeight = 50.f;
-    CGFloat actionViewHeight = 50.f;
-    CGFloat bottomDotsViewHeight = 20.f;
+    // Extra subviews heights
+    CGFloat topDotsViewHeight = [self.collectionView.delegate collectionView:self.collectionView
+                                                                      layout:self
+                                         heightForCellTopDotsViewAtIndexPath:indexPath];;
+    CGFloat statusViewHeight = [self.collectionView.delegate collectionView:self.collectionView
+                                                                     layout:self
+                                         heightForCellStatusViewAtIndexPath:indexPath];;
+    CGFloat actionViewHeight = [self.collectionView.delegate collectionView:self.collectionView
+                                                                     layout:self
+                                         heightForCellActionViewAtIndexPath:indexPath];;
+    CGFloat bottomDotsViewHeight = [self.collectionView.delegate collectionView:self.collectionView
+                                                                         layout:self
+                                         heightForCellBottomDotsViewAtIndexPath:indexPath];;
     
     //  add extra 2 points of space, because `boundingRectWithSize:` is slightly off
     //  not sure why. magix. (shrug) if you know, submit a PR

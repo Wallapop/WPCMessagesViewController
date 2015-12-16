@@ -600,32 +600,31 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     BOOL isThereMoreItemsAfterMe = indexPath.item<total;
     
     // Dots Views
-    void(^checkIfServerMessage)(NSIndexPath *, UIView *) = ^(NSIndexPath *indexPath, UIView *dotsView) {
-        id<JSQMessageData> messageData = [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
-        if (messageData.messageKind == JSQMessageKindServerMessage) {
+    void(^checkIfServerMessage)(NSIndexPath *, NSLayoutConstraint *) = ^(NSIndexPath *indexPath, NSLayoutConstraint *constraint) {
+        id<JSQMessageData> otherMessageItem = [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
+        if (otherMessageItem.messageKind == JSQMessageKindServerMessage) {
             // Hide dots
-            dotsView.hidden = YES;
+            constraint.constant = 0.f;
         }
     };
     // Top dots
     if (!isThereMoreItemsBeforeMe) {
         // Hide top dots
-        cell.topDotsView.hidden = YES;
+        cell.topDotsViewHeightConstraint.constant = 0.f;
     }
     else {
         NSIndexPath *previousIndexPath = [NSIndexPath indexPathForItem:itemIndexPath-1 inSection:indexPath.section];
-        checkIfServerMessage(previousIndexPath, cell.topDotsView);
+        checkIfServerMessage(previousIndexPath, cell.topDotsViewHeightConstraint);
     }
     // Bottom dots
     if (!isThereMoreItemsAfterMe) {
         // Hide bottom dots
-        cell.bottomDotsView.hidden = YES;
+        cell.bottomDotsViewHeightConstraint.constant = 0.f;
     }
     else {
         NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:itemIndexPath+1 inSection:indexPath.section];
-        checkIfServerMessage(nextIndexPath, cell.bottomDotsView);
+        checkIfServerMessage(nextIndexPath, cell.bottomDotsViewHeightConstraint);
     }
-    
     
     cell.textView.dataDetectorTypes = UIDataDetectorTypeAll;
     
@@ -711,6 +710,16 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 #pragma mark - Collection view delegate flow layout
 
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView
+ didTapAvatarImageView:(UIImageView *)avatarImageView
+           atIndexPath:(NSIndexPath *)indexPath { }
+
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath { }
+
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView
+ didTapCellAtIndexPath:(NSIndexPath *)indexPath
+         touchLocation:(CGPoint)touchLocation { }
+
 - (CGSize)collectionView:(JSQMessagesCollectionView *)collectionView
                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -735,15 +744,33 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     return 0.0f;
 }
 
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView
- didTapAvatarImageView:(UIImageView *)avatarImageView
-           atIndexPath:(NSIndexPath *)indexPath { }
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopDotsViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    JSQMessagesCollectionViewCellServerMessage *cell = (JSQMessagesCollectionViewCellServerMessage *)[collectionView cellForItemAtIndexPath:indexPath];
+    return cell.topDotsViewHeightConstraint.constant;
+}
 
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath { }
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomDotsViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    JSQMessagesCollectionViewCellServerMessage *cell = (JSQMessagesCollectionViewCellServerMessage *)[collectionView cellForItemAtIndexPath:indexPath];
+    return cell.bottomDotsViewHeightConstraint.constant;
+}
 
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView
- didTapCellAtIndexPath:(NSIndexPath *)indexPath
-         touchLocation:(CGPoint)touchLocation { }
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellStatusViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    JSQMessagesCollectionViewCellServerMessage *cell = (JSQMessagesCollectionViewCellServerMessage *)[collectionView cellForItemAtIndexPath:indexPath];
+    return cell.statusViewHeightConstraint.constant;
+}
+
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellActionViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    JSQMessagesCollectionViewCellServerMessage *cell = (JSQMessagesCollectionViewCellServerMessage *)[collectionView cellForItemAtIndexPath:indexPath];
+    return cell.actionViewHeightConstraint.constant;
+}
 
 #pragma mark - Input toolbar delegate
 

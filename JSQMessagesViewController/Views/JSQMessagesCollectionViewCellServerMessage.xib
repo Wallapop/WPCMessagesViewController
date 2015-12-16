@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yT8-Hh-qzQ">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yT8-Hh-qzQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
                         <animations/>
                         <color key="backgroundColor" red="0.1176470588" green="0.72941176470000002" blue="0.61176470589999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -29,7 +29,7 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dba-Hg-Wev" userLabel="Status">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dba-Hg-Wev" userLabel="StatusView">
                         <rect key="frame" x="0.0" y="170" width="320" height="50"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iZX-8H-jVK" customClass="JSQMessagesLabel">
@@ -48,7 +48,7 @@
                             <constraint firstItem="iZX-8H-jVK" firstAttribute="centerY" secondItem="dba-Hg-Wev" secondAttribute="centerY" id="hfT-1r-BmJ"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RPs-uy-9a3" userLabel="Button">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RPs-uy-9a3" userLabel="ActionView">
                         <rect key="frame" x="0.0" y="220" width="320" height="50"/>
                         <animations/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -56,7 +56,7 @@
                             <constraint firstAttribute="height" constant="50" id="PeJ-80-dLh"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cyu-B5-OLC">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cyu-B5-OLC">
                         <rect key="frame" x="0.0" y="270" width="320" height="20"/>
                         <animations/>
                         <color key="backgroundColor" red="0.1176470588" green="0.72941176470000002" blue="0.61176470589999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -90,11 +90,15 @@
             <size key="customSize" width="359" height="290"/>
             <connections>
                 <outlet property="actionViewContainer" destination="RPs-uy-9a3" id="Ybp-qf-FLZ"/>
+                <outlet property="actionViewHeightConstraint" destination="PeJ-80-dLh" id="OiK-gZ-5jP"/>
                 <outlet property="bottomDotsView" destination="Cyu-B5-OLC" id="m0P-m9-MHo"/>
+                <outlet property="bottomDotsViewHeightConstraint" destination="RUO-Ef-YYJ" id="qcs-gn-ABa"/>
                 <outlet property="statusLabel" destination="iZX-8H-jVK" id="Lyw-BC-YYv"/>
                 <outlet property="statusViewContainer" destination="dba-Hg-Wev" id="bPj-MW-IzM"/>
+                <outlet property="statusViewHeightConstraint" destination="JXy-Gl-hv8" id="pac-UY-L4o"/>
                 <outlet property="textView" destination="ACV-7n-3IL" id="acb-1c-t1x"/>
                 <outlet property="topDotsView" destination="yT8-Hh-qzQ" id="2yd-GC-nCg"/>
+                <outlet property="topDotsViewHeightConstraint" destination="4nz-uC-2ho" id="xxd-Ve-3qj"/>
             </connections>
             <point key="canvasLocation" x="452" y="326"/>
         </collectionViewCell>

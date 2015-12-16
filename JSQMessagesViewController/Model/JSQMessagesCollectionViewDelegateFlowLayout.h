@@ -34,47 +34,7 @@
 
 @optional
 
-/**
- *  Asks the delegate for the height of the `cellTopLabel` for the item at the specified indexPath.
- *
- *  @param collectionView       The collection view object displaying the flow layout.
- *  @param collectionViewLayout The layout object requesting the information.
- *  @param indexPath            The index path of the item.
- *
- *  @return The height of the `cellTopLabel` for the item at indexPath.
- *
- *  @see JSQMessagesCollectionViewCell.
- */
-- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  Asks the delegate for the height of the `messageBubbleTopLabel` for the item at the specified indexPath.
- *
- *  @param collectionView       The collection view object displaying the flow layout.
- *  @param collectionViewLayout The layout object requesting the information.
- *  @param indexPath            The index path of the item.
- *
- *  @return The height of the `messageBubbleTopLabel` for the item at indexPath.
- *
- *  @see JSQMessagesCollectionViewCell.
- */
-- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  Asks the delegate for the height of the `cellBottomLabel` for the item at the specified indexPath.
- *
- *  @param collectionView       The collection view object displaying the flow layout.
- *  @param collectionViewLayout The layout object requesting the information.
- *  @param indexPath            The index path of the item.
- *
- *  @return The height of the `cellBottomLabel` for the item at indexPath.
- *
- *  @see JSQMessagesCollectionViewCell.
- */
-- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath;
+#pragma mark - Actions
 
 /**
  *  Notifies the delegate that the avatar image view at the specified indexPath did receive a tap event.
@@ -126,5 +86,73 @@
  *  @param size           The size which the view has transitioned.
  */
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTransitionToSize:(CGSize)size;
+
+#pragma mark - Layout
+
+/**
+ *  Asks the delegate for the height of the `cellTopLabel` for the item at the specified indexPath.
+ *
+ *  @param collectionView       The collection view object displaying the flow layout.
+ *  @param collectionViewLayout The layout object requesting the information.
+ *  @param indexPath            The index path of the item.
+ *
+ *  @return The height of the `cellTopLabel` for the item at indexPath.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ *  Asks the delegate for the height of the `messageBubbleTopLabel` for the item at the specified indexPath.
+ *
+ *  @param collectionView       The collection view object displaying the flow layout.
+ *  @param collectionViewLayout The layout object requesting the information.
+ *  @param indexPath            The index path of the item.
+ *
+ *  @return The height of the `messageBubbleTopLabel` for the item at indexPath.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ *  Asks the delegate for the height of the `cellBottomLabel` for the item at the specified indexPath.
+ *
+ *  @param collectionView       The collection view object displaying the flow layout.
+ *  @param collectionViewLayout The layout object requesting the information.
+ *  @param indexPath            The index path of the item.
+ *
+ *  @return The height of the `cellBottomLabel` for the item at indexPath.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ *  TODO
+ */
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopDotsViewAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ *  TODO
+ */
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomDotsViewAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ *  TODO
+ */
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellStatusViewAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ *  TODO
+ */
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellActionViewAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
