@@ -20,6 +20,18 @@
 
 #import "NSUserDefaults+DemoSettings.h"
 
+@interface JSQSampleServerMessage : UIView <JSQServerMessageProtocol>
+
+@end
+
+@implementation JSQSampleServerMessage
+
+- (void)configureForWidth:(CGFloat)width;
+{
+    self.frame = CGRectMake(0, 0, width, 150);
+}
+
+@end
 
 /**
  *  This is for demo/testing purposes only.
@@ -139,7 +151,7 @@
     JSQMessage *serverMessage = [JSQMessage messageWithSenderId:kJSQDemoServerIdWallapop
                                                     displayName:kJSQDemoServerDisplayNameWallapop
                                               serverMessageView:({
-        UIView *sampleView = [UIView new];
+        JSQSampleServerMessage *sampleView = [JSQSampleServerMessage new];
         sampleView.backgroundColor = [UIColor redColor];
         sampleView;
     })];

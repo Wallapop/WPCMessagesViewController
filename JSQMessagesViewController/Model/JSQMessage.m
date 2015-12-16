@@ -76,6 +76,14 @@
     return [[self alloc] initWithSenderId:senderId senderDisplayName:displayName date:[NSDate date] serverMessageView:serverMessageView];
 }
 
++ (instancetype)messageWithSenderId:(NSString *)senderId
+                        displayName:(NSString *)displayName
+                               text:(NSString *)text
+                               kind:(JSQMessageKind)kind;
+{
+    return [[self alloc] initWithSenderId:senderId senderDisplayName:displayName date:[NSDate date] text:text kind:kind];
+}
+
 - (instancetype)initWithSenderId:(NSString *)senderId
                senderDisplayName:(NSString *)senderDisplayName
                             date:(NSDate *)date

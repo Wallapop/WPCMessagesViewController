@@ -484,7 +484,6 @@ JSQMessagesKeyboardControllerDelegate>
     NSParameterAssert(messageSenderId != nil);
     
     BOOL isOutgoingMessage = [messageSenderId isEqualToString:self.senderId];
-    BOOL isMediaMessage = [messageItem isMediaMessage];
     
     NSString *cellIdentifier = nil;
     JSQMessagesCollectionViewCell *cell = nil;
@@ -527,8 +526,10 @@ JSQMessagesKeyboardControllerDelegate>
         case JSQMessageKindServerMessage:
         {
             JSQMessagesCollectionViewCellServerMessage *serverCell = [collectionView dequeueReusableCellWithReuseIdentifier:self.serverMessageCellIdentifier forIndexPath:indexPath];
-            NSAssert(serverCell, @"");
-            [serverCell displayWithView:messageItem.serverMessageView];
+
+            UIView <JSQServerMessageProtocol> *view = messageItem.serverMessageView;
+            [view configureForWidth:CGRectGetWidth(self.collectionView.frame)];
+            [serverCell displayWithView:view];
 
             //Return early in this case
             return serverCell;

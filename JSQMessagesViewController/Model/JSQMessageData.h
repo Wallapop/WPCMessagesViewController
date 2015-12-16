@@ -22,6 +22,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol JSQServerMessageProtocol <NSObject>
+
+- (void)configureForWidth:(CGFloat)width;
+
+@end
+
 /**
  *  Enum representing the kind of messages that can be sent via this client
  */
@@ -121,7 +127,7 @@ typedef NS_ENUM(NSUInteger, JSQMessageKind){
 /**
  *  @return The view to display for the server message.
  */
-- (nullable UIView *)serverMessageView;
+- (nullable UIView <JSQServerMessageProtocol> *)serverMessageView;
 
 @end
 

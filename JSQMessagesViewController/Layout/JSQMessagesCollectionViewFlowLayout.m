@@ -482,8 +482,11 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
             break;
     
         case JSQMessageKindServerMessage:
-#warning REDO!
-            return CGSizeMake(CGRectGetWidth(self.collectionView.frame), 60);
+        {
+            UIView <JSQServerMessageProtocol> *view = messageItem.serverMessageView;
+            [view configureForWidth:CGRectGetWidth(self.collectionView.frame)];
+            finalSize = view.frame.size;
+        }
             break;
     }
     
