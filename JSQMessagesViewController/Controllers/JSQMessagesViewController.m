@@ -593,39 +593,39 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     id<JSQMessageServerMessageActionButtonDataSource> actionButtonDataSource = [collectionView.dataSource collectionView:collectionView actionButtonDataForItemAtIndexPath:indexPath];
     cell.actionView = [actionButtonDataSource actionButton];
     
-    // Dots check
-    NSInteger itemIndexPath = indexPath.item;
-    NSInteger total = [self collectionView:collectionView numberOfItemsInSection:indexPath.section];
-    BOOL isThereMoreItemsBeforeMe = indexPath.item>0;
-    BOOL isThereMoreItemsAfterMe = indexPath.item<total;
-    
     // Dots Views
-    void(^checkIfServerMessage)(NSIndexPath *, NSLayoutConstraint *) = ^(NSIndexPath *indexPath, NSLayoutConstraint *constraint) {
-        id<JSQMessageData> otherMessageItem = [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
-        if (otherMessageItem.messageKind == JSQMessageKindServerMessage) {
-            // Hide dots
-            constraint.constant = 0.f;
+    {
+        NSInteger itemIndexPath = indexPath.item;
+        NSInteger total = [self collectionView:collectionView numberOfItemsInSection:indexPath.section];
+        BOOL isThereMoreItemsBeforeMe = indexPath.item>0;
+        BOOL isThereMoreItemsAfterMe = indexPath.item<total;
+        
+        // Block to hide dots if previous or next message is a Server Message
+        void(^checkIfServerMessage)(NSIndexPath *, NSLayoutConstraint *) = ^(NSIndexPath *indexPath, NSLayoutConstraint *constraint) {
+            id<JSQMessageData> otherMessageItem = [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
+            if (otherMessageItem.messageKind == JSQMessageKindServerMessage) {
+                constraint.constant = 0.f;
+            }
+        };
+        // Top dots
+        if (!isThereMoreItemsBeforeMe) {
+            cell.topDotsViewHeightConstraint.constant = 0.f;
         }
-    };
-    // Top dots
-    if (!isThereMoreItemsBeforeMe) {
-        // Hide top dots
-        cell.topDotsViewHeightConstraint.constant = 0.f;
-    }
-    else {
-        NSIndexPath *previousIndexPath = [NSIndexPath indexPathForItem:itemIndexPath-1 inSection:indexPath.section];
-        checkIfServerMessage(previousIndexPath, cell.topDotsViewHeightConstraint);
-    }
-    // Bottom dots
-    if (!isThereMoreItemsAfterMe) {
-        // Hide bottom dots
-        cell.bottomDotsViewHeightConstraint.constant = 0.f;
-    }
-    else {
-        NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:itemIndexPath+1 inSection:indexPath.section];
-        checkIfServerMessage(nextIndexPath, cell.bottomDotsViewHeightConstraint);
+        else {
+            NSIndexPath *previousIndexPath = [NSIndexPath indexPathForItem:itemIndexPath-1 inSection:indexPath.section];
+            checkIfServerMessage(previousIndexPath, cell.topDotsViewHeightConstraint);
+        }
+        // Bottom dots
+        if (!isThereMoreItemsAfterMe) {
+            cell.bottomDotsViewHeightConstraint.constant = 0.f;
+        }
+        else {
+            NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:itemIndexPath+1 inSection:indexPath.section];
+            checkIfServerMessage(nextIndexPath, cell.bottomDotsViewHeightConstraint);
+        }
     }
     
+    // General
     cell.textView.dataDetectorTypes = UIDataDetectorTypeAll;
     
     cell.backgroundColor = [UIColor clearColor];
