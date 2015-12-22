@@ -16,8 +16,21 @@
 //  Released under an MIT license: http://opensource.org/licenses/MIT
 //
 
-#import "JSQMessageServerMessageActionButtonDataSource.h"
+#import "JSQMessageServerMessageActionView.h"
 
-@interface JSQMessageServerMessageActionButton : NSObject <JSQMessageServerMessageActionButtonDataSource>
+@interface JSQMessageServerMessageActionView ()
+@property (nonatomic) UIView *actionView;
+@end
+
+@implementation JSQMessageServerMessageActionView
+
+- (instancetype)initWithView:(UIView *)view
+{
+    self = [super init];
+    if (self) {
+        _actionView = view;
+    }
+    return self;
+}
 
 @end

@@ -31,15 +31,15 @@
  *
  *  @see JSQMessageServerMessageActionButton.
  */
-@protocol JSQMessageServerMessageActionButtonDataSource <NSObject>
+@protocol JSQMessageServerMessageActionViewDataSource <NSObject>
 
 @optional
 
 /**
- *  @return The server message action button for a regular display state.
+ *  @return The server message action view for a regular display state.
  *
  *  @warning You must not return `nil` from this method.
  */
-@property (nonatomic, strong, readonly) UIButton *actionButton;
+@property (nonatomic, strong, readonly) UIView *actionView;
 
 @end

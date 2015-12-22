@@ -23,7 +23,7 @@
 #import "JSQMessageData.h"
 #import "JSQMessageBubbleImageDataSource.h"
 #import "JSQMessageAvatarImageDataSource.h"
-#import "JSQMessageServerMessageActionButtonDataSource.h"
+#import "JSQMessageServerMessageActionViewDataSource.h"
 
 #import "JSQMessagesCollectionViewCellIncoming.h"
 #import "JSQMessagesCollectionViewCellOutgoing.h"
@@ -449,7 +449,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     return nil;
 }
 
-- (id<JSQMessageServerMessageActionButtonDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView actionButtonDataForItemAtIndexPath:(NSIndexPath *)indexPath
+- (id<JSQMessageServerMessageActionViewDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView actionViewDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return nil;
 }
@@ -601,8 +601,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     [cell setStatusLabelText:statusText];
     
     // Action button
-    id<JSQMessageServerMessageActionButtonDataSource> actionButtonDataSource = [collectionView.dataSource collectionView:collectionView actionButtonDataForItemAtIndexPath:indexPath];
-    cell.actionView = [actionButtonDataSource actionButton];
+    id<JSQMessageServerMessageActionViewDataSource> actionViewDataSource = [collectionView.dataSource collectionView:collectionView actionViewDataForItemAtIndexPath:indexPath];
+    cell.actionView = [actionViewDataSource actionView];
     
     // Dots Views
     {
