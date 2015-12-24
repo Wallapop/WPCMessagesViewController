@@ -20,4 +20,6 @@
 
 @interface JSQMessageServerMessageActionView : NSObject <JSQMessageServerMessageActionViewDataSource>
 
+- (instancetype)initWithView:(UIView *)view;
+
 @end
