@@ -18,6 +18,8 @@
 
 #import "JSQMessagesCollectionViewCellServerMessage.h"
 
+static NSInteger const JSQMessagesCollectionViewCellServerMessageTopAndBottomViewHeight = 30.f;
+
 @interface JSQMessagesCollectionViewCellServerMessage ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *topImageView;
@@ -98,10 +100,10 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     self.textView.attributedText = nil;
     
     [self setStatusLabelText:nil];
-    self.actionView = nil;
-    
-    self.topImageViewHeightConstraint.constant = 20.f;
-    self.bottomImageViewHeightConstraint.constant = 20.f;
+    [self setActionView:nil];
+    [self setTopImageViewHidden:NO];
+    [self setBottomImageViewHidden:NO];
+
 }
 
 #pragma mark - Menu actions
@@ -178,6 +180,20 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     
     _actionView = actionView;
 }
+
+- (void)setTopImageViewHidden:(BOOL)hidden
+{
+    self.topImageView.hidden = hidden;
+    self.topImageViewHeightConstraint.constant = hidden ? 0.f :  JSQMessagesCollectionViewCellServerMessageTopAndBottomViewHeight;
+}
+
+- (void)setBottomImageViewHidden:(BOOL)hidden
+{
+    self.bottomImageView.hidden = hidden;
+    self.bottomImageViewHeightConstraint.constant = hidden ? 0.f : JSQMessagesCollectionViewCellServerMessageTopAndBottomViewHeight;
+}
+
+
 
 #pragma mark - Gesture recognizers
 

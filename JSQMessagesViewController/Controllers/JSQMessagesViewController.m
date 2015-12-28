@@ -608,31 +608,26 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     {
         NSInteger itemIndexPath = indexPath.item;
         NSInteger total = [self collectionView:collectionView numberOfItemsInSection:indexPath.section];
-        BOOL isThereMoreItemsBeforeMe = indexPath.item>0;
-        BOOL isThereMoreItemsAfterMe = indexPath.item<total;
+        BOOL isThereMoreItemsBeforeMe = itemIndexPath>0;
+        BOOL isThereMoreItemsAfterMe = itemIndexPath<(total-1);
         
         // Block to hide dots if previous or next message is a Server Message
-        void(^checkIfServerMessage)(NSIndexPath *, NSLayoutConstraint *) = ^(NSIndexPath *indexPath, NSLayoutConstraint *constraint) {
+        BOOL(^checkIfServerMessage)(NSIndexPath *) = ^(NSIndexPath *indexPath) {
             id<JSQMessageData> otherMessageItem = [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
             if (otherMessageItem.messageKind == JSQMessageKindServerMessage) {
-                constraint.constant = 0.f;
+                return YES;
             }
+            return NO;
         };
         // Top dots
-        if (!isThereMoreItemsBeforeMe) {
-            cell.topImageViewHeightConstraint.constant = 0.f;
-        }
-        else {
+        if (isThereMoreItemsBeforeMe) {
             NSIndexPath *previousIndexPath = [NSIndexPath indexPathForItem:itemIndexPath-1 inSection:indexPath.section];
-            checkIfServerMessage(previousIndexPath, cell.topImageViewHeightConstraint);
+            cell.topImageViewHidden = checkIfServerMessage(previousIndexPath);
         }
         // Bottom dots
-        if (!isThereMoreItemsAfterMe) {
-            cell.bottomImageViewHeightConstraint.constant = 0.f;
-        }
-        else {
+        if (isThereMoreItemsAfterMe) {
             NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:itemIndexPath+1 inSection:indexPath.section];
-            checkIfServerMessage(nextIndexPath, cell.bottomImageViewHeightConstraint);
+            cell.bottomImageViewHidden = checkIfServerMessage(nextIndexPath);
         }
     }
     cell.topImageView.image = [collectionView.dataSource collectionView:collectionView topImageForServerMessageViewAtIndexPath:indexPath];

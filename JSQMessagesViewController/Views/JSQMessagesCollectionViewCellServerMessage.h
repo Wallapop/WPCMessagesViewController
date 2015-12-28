@@ -62,11 +62,6 @@
  */
 @property (weak, nonatomic) id<JSQMessagesCollectionViewCellServerMessageDelegate> delegate;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topImageViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *actionViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomImageViewHeightConstraint;
-
 /**
  *  The top dots view of the cell. This view displays an image of 2 dots to separate server messages.
  */
@@ -91,6 +86,15 @@
  *  The bottom dots view of the cell. This view displays an image of 2 dots to separate server messages.
  */
 @property (weak, nonatomic, readonly) UIImageView *bottomImageView;
+
+@property (nonatomic) BOOL topImageViewHidden;
+@property (nonatomic) BOOL bottomImageViewHidden;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topImageViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *actionViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomImageViewHeightConstraint;
+
 
 /**
  *  TODO
