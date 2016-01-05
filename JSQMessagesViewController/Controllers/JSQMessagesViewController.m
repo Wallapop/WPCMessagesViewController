@@ -874,10 +874,17 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     UIMenuController *menu = [notification object];
     [menu setMenuVisible:NO animated:NO];
 
-    JSQMessagesCollectionViewCell *selectedCell = (JSQMessagesCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPathForMenu];
-    CGRect selectedCellMessageBubbleFrame = [selectedCell convertRect:selectedCell.messageBubbleContainerView.frame toView:self.view];
-
-    [menu setTargetRect:selectedCellMessageBubbleFrame inView:self.view];
+    id selectedCell = [self.collectionView cellForItemAtIndexPath:self.selectedIndexPathForMenu];
+    CGRect frame;
+    if ([selectedCell isKindOfClass:[JSQMessagesCollectionViewCellServerMessage class]]) {
+        frame = [(JSQMessagesCollectionViewCellServerMessage *)selectedCell textView].frame;
+    }
+    else {
+        frame = [(JSQMessagesCollectionViewCell *)selectedCell messageBubbleContainerView].frame;
+    }
+    CGRect selectedFrame = [selectedCell convertRect:frame toView:self.view];
+    
+    [menu setTargetRect:selectedFrame inView:self.view];
     [menu setMenuVisible:YES animated:YES];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
