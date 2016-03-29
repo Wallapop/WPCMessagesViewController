@@ -470,11 +470,10 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
 
 - (CGSize)messageServerSizeWithText:(NSString *)text forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO: check real height
-    CGFloat textViewTotalMargin = 20.f;
-    CGFloat maximumTextWidth = CGRectGetWidth(self.collectionView.frame) - textViewTotalMargin;
+    CGFloat finalWidth = self.itemWidth;
     
-    CGRect stringRect = [text boundingRectWithSize:CGSizeMake(maximumTextWidth, CGFLOAT_MAX)
+    // Actual text
+    CGRect stringRect = [text boundingRectWithSize:CGSizeMake(finalWidth, CGFLOAT_MAX)
                                            options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                         attributes:@{ NSFontAttributeName : self.messageBubbleFont }
                                            context:nil];
@@ -498,9 +497,6 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     //  add extra 2 points of space, because `boundingRectWithSize:` is slightly off
     //  not sure why. magix. (shrug) if you know, submit a PR
     CGFloat verticalInsets = topDotsViewHeight + statusViewHeight + actionViewHeight + bottomDotsViewHeight + 2.0f;
-    
-    //  same as above, an extra 2 points of magix
-    CGFloat finalWidth = self.itemWidth;
     
     return CGSizeMake(finalWidth, ceilf(stringSize.height + verticalInsets));
 }
