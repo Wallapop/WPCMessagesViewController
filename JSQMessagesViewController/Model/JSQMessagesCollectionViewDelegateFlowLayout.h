@@ -23,13 +23,13 @@
 @class JSQMessagesCollectionViewFlowLayout;
 @class JSQMessagesCollectionViewCell;
 @class JSQMessagesLoadEarlierHeaderView;
-
+@class JSQMessagesCollectionViewCellServerMessage;
 
 /**
-*  The `JSQMessagesCollectionViewDelegateFlowLayout` protocol defines methods that allow you to
-*  manage additional layout information for the collection view and respond to additional actions on its items.
-*  The methods of this protocol are all optional.
-*/
+ *  The `JSQMessagesCollectionViewDelegateFlowLayout` protocol defines methods that allow you to
+ *  manage additional layout information for the collection view and respond to additional actions on its items.
+ *  The methods of this protocol are all optional.
+ */
 @protocol JSQMessagesCollectionViewDelegateFlowLayout <UICollectionViewDelegateFlowLayout>
 
 @optional
@@ -134,25 +134,7 @@
 /**
  *  TODO
  */
-- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopDotsViewAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  TODO
- */
-- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomDotsViewAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  TODO
- */
-- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellStatusViewAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  TODO
- */
-- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellActionViewAtIndexPath:(NSIndexPath *)indexPath;
+- (JSQMessagesCollectionViewCellServerMessage *)collectionView:(JSQMessagesCollectionView *)collectionView
+                                                        layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout serverMessageCellForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

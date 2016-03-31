@@ -18,7 +18,9 @@
 
 #import "JSQMessagesCollectionViewCellServerMessage.h"
 
-static NSInteger const JSQMessagesCollectionViewCellServerMessageTopAndBottomViewHeight = 30.f;
+CGFloat const JSQMessagesCollectionViewCellServerMessageTopAndBottomViewHeight = 30.f;
+CGFloat const JSQMessagesCollectionViewCellServerMessageStatusViewHeight = 50.f;
+CGFloat const JSQMessagesCollectionViewCellServerMessageActionViewHeightMultiplier = 50.f;
 
 @interface JSQMessagesCollectionViewCellServerMessage ()
 
@@ -103,7 +105,7 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     [self setActionView:nil];
     [self setTopImageViewHidden:NO];
     [self setBottomImageViewHidden:NO];
-
+    
 }
 
 #pragma mark - Menu actions
@@ -156,7 +158,7 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
 {
     self.statusLabel.attributedText = text;
     if (text) {
-        self.statusViewHeightConstraint.constant = 50.f;
+        self.statusViewHeightConstraint.constant = JSQMessagesCollectionViewCellServerMessageStatusViewHeight;
     }
     else {
         self.statusViewHeightConstraint.constant = 0.f;
@@ -170,7 +172,7 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     }
     
     if (actionView) {
-        self.actionViewHeightConstraint.constant = 50.f;
+        self.actionViewHeightConstraint.constant = actionView.subviews.count * JSQMessagesCollectionViewCellServerMessageActionViewHeightMultiplier;
         [self.actionViewContainer addSubview:actionView];
         [self applyAutolayoutToActionView:actionView container:self.actionViewContainer];
     }
@@ -192,8 +194,6 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     self.bottomImageView.hidden = hidden;
     self.bottomImageViewHeightConstraint.constant = hidden ? 0.f : JSQMessagesCollectionViewCellServerMessageTopAndBottomViewHeight;
 }
-
-
 
 #pragma mark - Gesture recognizers
 

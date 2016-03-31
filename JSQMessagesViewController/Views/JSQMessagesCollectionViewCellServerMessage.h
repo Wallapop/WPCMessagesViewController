@@ -23,6 +23,10 @@
 
 @class JSQMessagesCollectionViewCellServerMessage;
 
+extern CGFloat const JSQMessagesCollectionViewCellServerMessageTopAndBottomViewHeight;
+extern CGFloat const JSQMessagesCollectionViewCellServerMessageStatusViewHeight;
+extern CGFloat const JSQMessagesCollectionViewCellServerMessageActionViewHeightMultiplier;
+
 /**
  *  The `JSQMessagesCollectionViewCellDelegate` protocol defines methods that allow you to manage
  *  additional interactions within the collection view cell.

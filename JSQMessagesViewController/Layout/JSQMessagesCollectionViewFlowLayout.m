@@ -481,18 +481,13 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     CGSize stringSize = CGRectIntegral(stringRect).size;
     
     // Extra subviews heights
-    CGFloat topDotsViewHeight = [self.collectionView.delegate collectionView:self.collectionView
-                                                                      layout:self
-                                         heightForCellTopDotsViewAtIndexPath:indexPath];;
-    CGFloat statusViewHeight = [self.collectionView.delegate collectionView:self.collectionView
-                                                                     layout:self
-                                         heightForCellStatusViewAtIndexPath:indexPath];;
-    CGFloat actionViewHeight = [self.collectionView.delegate collectionView:self.collectionView
-                                                                     layout:self
-                                         heightForCellActionViewAtIndexPath:indexPath];;
-    CGFloat bottomDotsViewHeight = [self.collectionView.delegate collectionView:self.collectionView
-                                                                         layout:self
-                                         heightForCellBottomDotsViewAtIndexPath:indexPath];;
+    JSQMessagesCollectionViewCellServerMessage *cell = [self.collectionView.delegate collectionView:self.collectionView
+                                                                                             layout:self
+                                                                serverMessageCellForItemAtIndexPath:indexPath];
+    CGFloat topDotsViewHeight = cell.topImageViewHeightConstraint.constant;
+    CGFloat statusViewHeight = cell.statusViewHeightConstraint.constant;
+    CGFloat actionViewHeight = cell.actionViewHeightConstraint.constant;
+    CGFloat bottomDotsViewHeight = cell.bottomImageViewHeightConstraint.constant;
     
     //  add extra 2 points of space, because `boundingRectWithSize:` is slightly off
     //  not sure why. magix. (shrug) if you know, submit a PR
@@ -584,7 +579,7 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
 {
     id<JSQMessageData> messageData = [self.collectionView.dataSource collectionView:self.collectionView messageDataForItemAtIndexPath:indexPath];
     NSString *messageSender = [messageData senderId];
-   
+    
     if ([messageSender isEqualToString:[self.collectionView.dataSource senderId]]) {
         return self.outgoingAvatarViewSize;
     }
